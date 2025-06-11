@@ -1,0 +1,164 @@
+/* Google 字體，提供更美觀的顯示效果 */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap');
+
+body {
+    font-family: 'Noto Sans TC', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f2f5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 1rem;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+.main-container {
+    width: 100%;
+    max-width: 1000px;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    height: 95vh;
+    max-height: 850px;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    border-bottom: 2px solid #dfe4ea;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+}
+
+.tab-link {
+    padding: 10px 15px;
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-size: 14px;
+    font-weight: bold;
+    color: #7f8c8d;
+    position: relative;
+    bottom: -2px;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+}
+
+.tab-link:hover { color: #3498db; }
+.tab-link.active { color: #3498db; border-bottom: 3px solid #3498db; }
+
+.tab-content {
+    display: none;
+    flex-grow: 1;
+    flex-direction: column;
+}
+.tab-content.active { display: flex; }
+
+h1 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    flex-shrink: 0;
+    font-size: 1.8rem;
+}
+
+.visualization-area {
+    flex-grow: 1;
+    width: 100%;
+    border: 1px solid #dfe4ea; background-color: #f8f9fa;
+    border-radius: 8px; padding: 10px; box-sizing: border-box;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.chart-container { justify-content: center; align-items: flex-end; padding: 10px 0; }
+#array-container, #stack-container, #queue-container, #hash-table-container, #heap-container, #bst-container, #bfs-container, #dfs-container, #dh-container, #clustering-container { justify-content: center; }
+#list-svg, #array-svg, #stack-svg, #queue-svg, #hash-table-svg, #heap-svg, #bst-svg, #bfs-svg, #dfs-svg, #dh-svg, #clustering-svg { width: 100%; height: 100%; }
+
+.controls {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center; align-items: center;
+    gap: 0.75rem; flex-wrap: wrap;
+    flex-shrink: 0;
+}
+.controls input {
+    padding: 10px; font-size: 14px;
+    border-radius: 8px; border: 1px solid #dfe4ea;
+    width: 70px; text-align: center;
+}
+
+button:not(.tab-link) {
+    padding: 10px 20px; font-size: 14px; font-family: 'Noto Sans TC', sans-serif;
+    cursor: pointer; border: none; color: white; border-radius: 8px;
+    transition: all 0.3s ease; background-color: #3498db;
+    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+button.reset-btn { background-color: #e67e22; }
+button.delete-btn { background-color: #e74c3c; }
+button:not(.tab-link):hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+    filter: brightness(1.1);
+}
+button:not(.tab-link):disabled { background-color: #bdc3c7; cursor: not-allowed; }
+
+/* --- 排序長條圖樣式 --- */
+.bar {
+    flex-grow: 1; background-color: #5dade2; margin: 0 2px;
+    color: white; text-align: center; font-size: 12px;
+    font-weight: bold; transition: all 0.3s ease-in-out; position: relative;
+}
+.bar-pivot, .bar-min { background-color: #e74c3c; }
+.bar-pivot::after, .bar-min::after {
+    content: '基準'; position: absolute; top: -22px; left: 50%;
+    transform: translateX(-50%); background-color: #e74c3c;
+    color: white; padding: 2px 6px; border-radius: 4px;
+    font-size: 10px; font-weight: bold; white-space: nowrap;
+}
+.bar-compare { background-color: #f1c40f; }
+.bar-sorted { background-color: #9b59b6; }
+
+/* --- 通用 SVG 樣式 --- */
+.node-group { transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out; }
+.node-rect { stroke: #2980b9; stroke-width: 2; fill: #5dade2; transition: fill 0.3s ease; }
+.node-text { font-weight: bold; fill: white; user-select: none; transition: font-size 0.3s ease; }
+.node-label { font-size: 16px; font-weight: bold; fill: #2c3e50; user-select: none; }
+.node-highlight .node-rect, .dh-value-box.highlight { border-color: #f39c12 !important; box-shadow: 0 0 15px rgba(243, 156, 18, 0.7); }
+.node-highlight .node-rect { fill: #f1c40f; }
+.node-deleting {
+    filter: url(#shatter-filter);
+    opacity: 0 !important;
+    transition: opacity 0.5s, filter 0.5s !important;
+}
+.list-pointer, .stack-pointer, .queue-pointer, .hash-pointer, .heap-link, .bst-link, .bfs-link, .dfs-link { stroke: #34495e; stroke-width: 2; transition: all 0.3s ease-in-out; }
+.array-index-text, .hash-index-text { font-size: 14px; fill: #7f8c8d; }
+.hash-bucket { transition: fill 0.3s ease; }
+.hash-bucket-highlight { fill: #d4e6f1; }
+.hash-key-text { font-size: 12px; fill: #34495e; }
+#bfs-queue-display { position: absolute; bottom: 10px; left: 10px; background: rgba(255,255,255,0.8); padding: 5px 10px; border-radius: 5px; font-size: 14px; }
+.graph-node-in-queue .node-rect { fill: #3498db; }
+.graph-node-visited .node-rect { fill: #9b59b6; }
+#bfs-path-dot, #dfs-path-dot { fill: #e74c3c; transition: transform 0.4s ease-in-out; }
+
+/* --- Diffie-Hellman 樣式 --- */
+#dh-container { flex-direction: row; gap: 1rem; }
+#dh-log-wrapper { flex: 4; text-align: left; font-size: 14px; line-height: 1.6; overflow-y: auto; padding-right: 10px;}
+#dh-main-viz { flex: 6; display: flex; flex-direction: column; justify-content: space-around; }
+#dh-top-area, #dh-bottom-area { display: flex; justify-content: space-around; width: 100%; align-items: center; }
+.dh-person { width: 45%; text-align: center; }
+.dh-value-box { display: inline-block; min-width: 60px; padding: 10px 20px; border: 2px solid #ccc; border-radius: 8px; margin: 5px auto; font-size: 18px; font-weight: bold; transition: all 0.5s ease; }
+.dh-packet { position: absolute; z-index: 10; transition: all 1s ease-in-out; background-color: #fff; }
+
+/* --- Clustering 樣式 --- */
+.cluster-point { transition: fill 0.5s ease; }
+.cluster-centroid { stroke-width: 4px; transition: transform 0.5s ease; }
+.cluster-assignment-line { stroke-opacity: 0.5; stroke-width: 1px; transition: all 0.5s ease; }
